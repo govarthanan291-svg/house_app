@@ -48,11 +48,11 @@ with st.form("prediction_form"):
     GrLivArea = st.number_input("Ground Living Area", min_value=100, max_value=5000, value=1500)
     BedroomAbvGr = st.number_input("Bedrooms Above Ground", min_value=1, max_value=10, value=3)
     FullBath = st.number_input("Full Bathrooms", min_value=1, max_value=5, value=2)
-    TotalBsmtSF = st.number_input("Basement Area", min_value=0, max_value=3000, value=800)
-    GarageCars = st.number_input("Garage Capacity (cars)", min_value=0, max_value=5, value=2)
-    YearBuilt = st.number_input("Year Built", min_value=1800, max_value=2025, value=2000)
-    LotArea = st.number_input("Lot Area", min_value=1000, max_value=50000, value=8000)
-    OverallQual = st.number_input("Overall Quality (1–10)", min_value=1, max_value=10, value=7)
+    TotalBsmtSF = st.number_input("Base Area", min_value=0, max_value=3000, value=800)
+    GarageCars = st.number_input("Garage Capacity", min_value=0, max_value=5, value=2)
+    YearBuilt = st.number_input("Built Year", min_value=1800, max_value=2025, value=2000)
+    hallArea = st.number_input("hall Area", min_value=1000, max_value=50000, value=8000)
+    OverallQuality = st.number_input("Quality of house", min_value=1, max_value=10, value=7)
 
     submit = st.form_submit_button("Predict Price")
 
