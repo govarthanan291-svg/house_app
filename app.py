@@ -4,67 +4,60 @@ import joblib
 import numpy as np
 
 # Load trained model
-model = joblib.load("house_price_model.pkl")   # change name if your model file is different
+model = joblib.load("house_price_model.pkl")
 
 # Page config
 st.set_page_config(page_title="House Price Predictor", layout="centered")
 
-# Custom CSS
+# 🌟 GOLD THEME CSS
 st.markdown("""
-    <style>
-    body {
-        background-color: #f5f5f5;
-    }
-    .title {
-        text-align: center;
-        font-size: 36px;
-        font-weight: bold;
-        color: #2c3e50;
-    }
-    .subtext {
-        text-align: center;
-        color: gray;
-        margin-bottom: 30px;
-    }
-    .prediction-box {
-        padding: 20px;
-        border-radius: 10px;
-        background-color: #e8f6f3;
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        color: #117864;
-    }
-    </style>
+<style>
+body {
+    background: linear-gradient(to right, #FFD700, #FFC300);
+}
+
+.title {
+    text-align: center;
+    font-size: 38px;
+    font-weight: bold;
+    color: #4B0000;
+    text-shadow: 2px 2px 6px green;
+}
+
+.subtext {
+    text-align: center;
+    color: #5C0000;
+    margin-bottom: 30px;
+    font-size: 18px;
+}
+
+.prediction-box {
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #FFF3B0;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    color: #8B0000;
+    box-shadow: 0px 0px 12px green;
+}
+
+div.stButton > button {
+    background-color: #8B0000;
+    color: white;
+    font-size: 18px;
+    width: 100%;
+    border-radius: 10px;
+    height: 3em;
+    box-shadow: 0px 0px 12px green;
+}
+
+div.stButton > button:hover {
+    background-color: #5C0000;
+    color: #FFD700;
+}
+</style>
 """, unsafe_allow_html=True)
 
 # Title
-st.markdown('<div class="title">House Price Predictor</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtext">Enter the house details below</div>', unsafe_allow_html=True)
-
-# Input form
-with st.form("prediction_form"):
-
-    GrLivArea = st.number_input("Ground Living Area", min_value=100, max_value=5000, value=1500)
-    BedroomAbvGr = st.number_input("Bedrooms Above Ground", min_value=1, max_value=10, value=3)
-    FullBath = st.number_input("Full Bathrooms", min_value=1, max_value=5, value=2)
-    TotalBsmtSF = st.number_input("Base Area", min_value=0, max_value=3000, value=800)
-    GarageCars = st.number_input("Garage Capacity", min_value=0, max_value=5, value=2)
-    YearBuilt = st.number_input("Built Year", min_value=1800, max_value=2025, value=2000)
-    hallArea = st.number_input("hall Area", min_value=1000, max_value=50000, value=8000)
-    OverallQuality = st.number_input("Quality of house", min_value=1, max_value=10, value=7)
-
-    submit = st.form_submit_button("Predict Price")
-
-# Prediction
-if submit:
-    input_data = np.array([[GrLivArea, BedroomAbvGr, FullBath,
-                            TotalBsmtSF, GarageCars, YearBuilt,
-                            LotArea, OverallQual]])
-
-    prediction = model.predict(input_data)[0]
-
-    st.markdown(
-        f'<div class="prediction-box">Predicted Price: ${prediction:,.2f}</div>',
-        unsafe_allow_html=True
-    )
+st.markdown('<div class="title">🏠 House Price Predictor</div>', unsafe_allow_
