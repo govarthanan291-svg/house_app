@@ -1,51 +1,69 @@
 import streamlit as st
-import pickle
+import joblib
 import numpy as np
 
-# Load Model
-model = pickle.load(open("house_price_model.pkl", "rb"))
+# Load trained model
+model = joblib.load("house_price_model.pkl")   # change name if your model file is different
 
-st.set_page_config(page_title="House Price Prediction", layout="centered")
+# Page config
+st.set_page_config(page_title="House Price Predictor", layout="centered")
 
-# CSS
+# Custom CSS
 st.markdown("""
-<style>
-body {
-    background: linear-gradient(to right, #FFD700, #FFC300);
-}
-h1 {
-    text-align: center;
-    color: #4B0000;
-    text-shadow: 2px 2px 6px green;
-}
-div.stButton > button {
-    background-color: #8B0000;
-    color: white;
-    width: 100%;
-    height: 3em;
-    font-size: 18px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 12px green;
-}
-</style>
+    <style>
+    body {
+        background-color: #f5f5f5;
+    }
+    .title {
+        text-align: center;
+        font-size: 36px;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+    .subtext {
+        text-align: center;
+        color: gray;
+        margin-bottom: 30px;
+    }
+    .prediction-box {
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #e8f6f3;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #117864;
+    }
+    </style>
 """, unsafe_allow_html=True)
 
-st.markdown("<h1>🏠 House Price Prediction App</h1>", unsafe_allow_html=True)
+# Title
+st.markdown('<div class="title">House Price Predictor</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtext">Enter the house details below</div>', unsafe_allow_html=True)
 
-# Inputs (8 Features)
-area = st.number_input("Area (sqft)")
-bedrooms = st.number_input("Bedrooms")
-bathrooms = st.number_input("Bathrooms")
-floors = st.number_input("Floors")
-parking = st.number_input("Parking Spaces")
-yearbuilt = st.number_input("Year Built")
-location_score = st.number_input("Location Score (1-10)")
-size = st.number_input("House Size Category")
+# Input form
+with st.form("prediction_form"):
 
-if st.button("Predict House Price"):
-    input_data = np.array([[area, bedrooms, bathrooms, floors,
-                            parking, yearbuilt, location_score, size]])
+    GrLivArea = st.number_input("Ground Living Area", min_value=100, max_value=5000, value=1500)
+    BedroomAbvGr = st.number_input("Bedrooms Above Ground", min_value=1, max_value=10, value=3)
+    FullBath = st.number_input("Full Bathrooms", min_value=1, max_value=5, value=2)
+    TotalBsmtSF = st.number_input("Basement Area", min_value=0, max_value=3000, value=800)
+    GarageCars = st.number_input("Garage Capacity (cars)", min_value=0, max_value=5, value=2)
+    YearBuilt = st.number_input("Year Built", min_value=1800, max_value=2025, value=2000)
+    LotArea = st.number_input("Lot Area", min_value=1000, max_value=50000, value=8000)
+    OverallQual = st.number_input("Overall Quality (1–10)", min_value=1, max_value=10, value=7)
 
-    prediction = model.predict(input_data)
+    submit = st.form_submit_button("Predict Price")
 
-    st.success(f"Estimated House Price: ₹ {int(prediction[0])}")
+# Prediction
+if submit:
+    input_data = np.array([[GrLivArea, BedroomAbvGr, FullBath,
+                            TotalBsmtSF, GarageCars, YearBuilt,
+                            LotArea, OverallQual]])
+
+    prediction = model.predict(input_data)[0]
+
+    st.markdown(
+        f'<div class="prediction-box">Predicted Price: ${prediction:,.2f}</div>',
+        unsafe_allow_html=True
+    )
