@@ -55,6 +55,40 @@ st.markdown("<h1>🏠 House Price Prediction App</h1>", unsafe_allow_html=True)
 area = st.number_input("Enter Area (sqft)", min_value=0)
 bedrooms = st.number_input("Enter Number of Bedrooms", min_value=0)
 bathrooms = st.number_input("Enter Number of Bathrooms", min_value=0)
+stories = st.number_input("Enter Number of Stories", min_value=0)
+parking = st.number_input("Enter Parking Spaces", min_value=0)
+
+# Categorical inputs
+mainroad = st.selectbox("Is Main Road Available?", ["Yes", "No"])
+guestroom = st.selectbox("Is Guest Room Available?", ["Yes", "No"])
+furnishingstatus = st.selectbox(
+    "Furnishing Status",
+    ["Unfurnished", "Semi-Furnished", "Furnished"]
+)
+
+# Encoding (IMPORTANT)
+mainroad = 1 if mainroad == "Yes" else 0
+guestroom = 1 if guestroom == "Yes" else 0
+
+if furnishingstatus == "Unfurnished":
+    furnishingstatus = 0
+elif furnishingstatus == "Semi-Furnished":
+    furnishingstatus = 1
+else:
+    furnishingstatus = 2
+
+# Prediction button
+if st.button("Predict Price"):
+    input_data = pd.DataFrame([{
+        'area': area,
+        'bedrooms': bedrooms,
+        'bathrooms': bathrooms,
+        'stories': stories,
+        'parking': parking,
+        'mainroad': mainroad,
+        'guestroom': guestroom,
+        'furnishingstatus': furnishingstatus
+    }])
 
 # Predict Button
 if st.button("Predict House Price"):
